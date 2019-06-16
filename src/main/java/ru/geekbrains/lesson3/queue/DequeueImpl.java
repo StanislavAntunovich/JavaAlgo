@@ -1,20 +1,10 @@
 package ru.geekbrains.lesson3.queue;
 
-public class DequeueImpl<E> implements Dequeue<E> {
-    private static final int DEFAULT_HEAD = 0;
-    private static final int DEFAULT_TAIL = -1;
-
-    private int size;
-    private E[] data;
-
-    private int head;
-    private int tail;
+public class DequeueImpl<E> extends QueueImpl<E> implements Dequeue<E> {
 
     @SuppressWarnings("unchecked")
     public DequeueImpl(int maxSize) {
-        data = (E[]) new Object[maxSize];
-        head = DEFAULT_HEAD;
-        tail = DEFAULT_TAIL;
+        super(maxSize);
     }
 
 
@@ -38,17 +28,7 @@ public class DequeueImpl<E> implements Dequeue<E> {
 
     @Override
     public boolean insertRight(E value) {
-        if (isFull()) {
-            return false;
-        }
-
-        if (tail == lastIndex()) {
-            tail = DEFAULT_TAIL;
-        }
-
-        data[++tail] = value;
-        size++;
-        return true;
+        return super.insert(value);
     }
 
     @Override
@@ -56,8 +36,9 @@ public class DequeueImpl<E> implements Dequeue<E> {
         if (isEmpty()) {
             return null;
         }
-        if (tail < 0)
+        if (tail < 0) {
             tail = lastIndex();
+        }
 
         size--;
         return data[tail--];
@@ -65,32 +46,7 @@ public class DequeueImpl<E> implements Dequeue<E> {
 
     @Override
     public E removeLeft() {
-        if (isEmpty()) {
-            return null;
-        }
-
-        if (head == data.length) {
-            head = DEFAULT_HEAD;
-        }
-
-        size--;
-        return data[head++];
-
-    }
-
-    @Override
-    public int size() {
-        return size;
-    }
-
-    @Override
-    public boolean isFull() {
-        return size == data.length;
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return size == 0;
+        return super.remove();
     }
 
 }

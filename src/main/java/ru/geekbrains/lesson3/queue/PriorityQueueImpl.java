@@ -1,6 +1,6 @@
 package ru.geekbrains.lesson3.queue;
 
-public class PriorityQueueImpl<E extends Object & Comparable<? super E>> extends QueueImp<E> {
+public class PriorityQueueImpl<E extends Object & Comparable<? super E>> extends QueueImpl<E> {
 
     public PriorityQueueImpl(int maxSize) {
         super(maxSize);
