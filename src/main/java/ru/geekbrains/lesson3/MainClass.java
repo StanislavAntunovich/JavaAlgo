@@ -1,25 +1,26 @@
 package ru.geekbrains.lesson3;
 
-import ru.geekbrains.lesson3.queue.DequeueImpl;
-
-import java.util.Arrays;
+import ru.geekbrains.lesson3.stack.Stack;
+import ru.geekbrains.lesson3.stack.StackImpl;
 
 public class MainClass {
 
     public static void main(String[] args) {
-        DequeueImpl<Integer> arr = new DequeueImpl<>(5);
+        printReversedString("Hello World");
+    }
 
-        arr.insert(3);
-        arr.push(1);
-        arr.insert(2);
-        arr.push(4);
-        arr.insert(5);
+    public static void printReversedString(String string) {
+        Stack<Character> stack = new StackImpl<>(string.length());
+        for (Character ch : string.toCharArray()) {
+            stack.push(ch);
+        }
 
-        System.out.println(Arrays.toString(arr.getData()));
-        System.out.println(arr.pop());
-        System.out.println(Arrays.toString(arr.getData()));
-        System.out.println(arr.remove());
-        System.out.println(Arrays.toString(arr.getData()));
+        System.out.println();
 
+        while (!stack.isEmpty()) {
+            System.out.print(stack.pop());
+        }
+
+        System.out.println();
     }
 }
