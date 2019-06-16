@@ -5,9 +5,12 @@ public class StackImpl<E> implements Stack<E> {
     protected E[] data;
     protected int size;
 
+    private int maxSize;
+
     @SuppressWarnings("unchecked")
     public StackImpl(int maxSize) {
         data = (E[]) new Object[maxSize];
+        this.maxSize = maxSize;
     }
 
     /**
@@ -45,5 +48,12 @@ public class StackImpl<E> implements Stack<E> {
     @Override
     public boolean isFull() {
         return size == data.length;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public void clear() {
+        size = 0;
+        data = (E[]) new Object[maxSize];
     }
 }
