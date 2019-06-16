@@ -13,4 +13,6 @@ public interface Dequeue<E> {
     boolean isFull();
 
     boolean isEmpty();
+
+    void clear();
 }

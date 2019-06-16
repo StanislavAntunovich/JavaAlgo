@@ -12,11 +12,14 @@ public class QueueImpl<E> implements Queue<E> {
     protected int head;
     protected int tail;
 
+    private int maxSize;
+
     @SuppressWarnings("unchecked")
     public QueueImpl(int maxSize) {
         data = (E[]) new Object[maxSize];
         head = DEFAULT_HEAD;
         tail = DEFAULT_TAIL;
+        this.maxSize = maxSize;
     }
 
     @Override
@@ -70,5 +73,14 @@ public class QueueImpl<E> implements Queue<E> {
     @Override
     public boolean isEmpty() {
         return size == 0;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public void clear() {
+        tail = DEFAULT_TAIL;
+        head = DEFAULT_HEAD;
+        size = 0;
+        data = (E[]) new Object[maxSize];
     }
 }
