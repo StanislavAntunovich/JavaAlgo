@@ -28,14 +28,8 @@ public class DequeueImplTest {
     public void removeLeft() {
         assertEquals(java.util.Optional.of(0).get(), dequeue.removeLeft());
         assertEquals(java.util.Optional.of(1).get(), dequeue.removeLeft());
-        clearDequeue();
+        dequeue.clear();
         assertEquals(null, dequeue.removeLeft());
-    }
-
-    private void clearDequeue() {
-        for (int i = 0; i < ARRAY_SIZE; i++) {
-            dequeue.removeLeft();
-        }
     }
 
     @Test
@@ -52,7 +46,7 @@ public class DequeueImplTest {
 
     @Test
     public void removeRightNull() {
-        clearDequeue();
+        dequeue.clear();
         assertEquals(null, dequeue.removeRight());
     }
 
@@ -79,13 +73,13 @@ public class DequeueImplTest {
 
     @Test
     public void isEmptyTrue() {
-        clearDequeue();
+        dequeue.clear();
         assertTrue(dequeue.isEmpty());
     }
 
     @Test
     public void mixedTest() {
-        clearDequeue();
+        dequeue.clear();
         dequeue.insertLeft(0);
         assertEquals(java.util.Optional.of(0).get(), dequeue.removeRight());
         dequeue.insertLeft(1);
