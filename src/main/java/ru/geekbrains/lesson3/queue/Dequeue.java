@@ -1,8 +1,16 @@
 package ru.geekbrains.lesson3.queue;
 
-import ru.geekbrains.lesson3.stack.Stack;
+public interface Dequeue<E> {
 
-public interface Dequeue<E> extends Queue<E>, Stack<E> {
+    boolean insertLeft(E value);
+    boolean insertRight(E value);
 
-    E[] getData();
+    E removeRight();
+    E removeLeft();
+
+    int size();
+
+    boolean isFull();
+
+    boolean isEmpty();
 }

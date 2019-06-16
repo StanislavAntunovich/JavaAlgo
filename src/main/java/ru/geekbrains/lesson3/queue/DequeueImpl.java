@@ -1,53 +1,81 @@
 package ru.geekbrains.lesson3.queue;
 
 public class DequeueImpl<E> implements Dequeue<E> {
+    private static final int DEFAULT_HEAD = 0;
+    private static final int DEFAULT_TAIL = -1;
 
     private int size;
     private E[] data;
 
+    private int head;
+    private int tail;
+
     @SuppressWarnings("unchecked")
     public DequeueImpl(int maxSize) {
         data = (E[]) new Object[maxSize];
+        head = DEFAULT_HEAD;
+        tail = DEFAULT_TAIL;
     }
 
+
     @Override
-    public boolean insert(E value) {
-        if (!isFull()) {
-            size++;
-            System.arraycopy(data, 0, data, 1, data.length - 1);
-            data[0] = value;
-            return true;
+    public boolean insertLeft(E value) {
+        if (isFull()) {
+            return false;
         }
-        return false;
-    }
 
-    @Override
-    public E remove() {
-        if (!isEmpty()) {
-            E targetValue = data[0];
-            System.arraycopy(data, 1, data, 0, data.length - 1);
-            size--;
-            return targetValue;
+        if (head == DEFAULT_HEAD) {
+            head = data.length;
         }
-        return null;
+        data[--head] = value;
+        size++;
+        return true;
+    }
+
+    private int lastIndex() {
+        return data.length - 1;
     }
 
     @Override
-    public boolean push(E value) {
-        if (!isFull()) {
-            data[size++] = value;
+    public boolean insertRight(E value) {
+        if (isFull()) {
+            return false;
         }
-        return false;
+
+        if (tail == lastIndex()) {
+            tail = DEFAULT_TAIL;
+        }
+
+        data[++tail] = value;
+        size++;
+        return true;
     }
 
     @Override
-    public E peek() {
-        return isEmpty() ? null : data[size - 1];
+    public E removeRight() {
+        if (isEmpty()) {
+            return null;
+        }
+        if (tail < 0)
+            tail = lastIndex();
+
+        size--;
+        return data[tail--];
     }
 
     @Override
-    public E pop() {
-        return isEmpty() ? null : data[--size];
+    public E removeLeft() {
+        if (isEmpty()) {
+            return null;
+        }
+
+        if (head == data.length) {
+            head = DEFAULT_HEAD;
+        }
+
+        size--;
+        return data[head++];
+
     }
 
     @Override
@@ -65,10 +93,4 @@ public class DequeueImpl<E> implements Dequeue<E> {
         return size == 0;
     }
 
-    @SuppressWarnings("unchecked")
-    public E[] getData() {
-        E[] targetArr = (E[]) new Object[size];
-        System.arraycopy(data, 0, targetArr, 0, size);
-        return targetArr;
-    }
 }

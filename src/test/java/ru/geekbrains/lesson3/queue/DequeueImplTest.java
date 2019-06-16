@@ -14,56 +14,46 @@ public class DequeueImplTest {
     public void init() {
         this.dequeue = new DequeueImpl<>(ARRAY_SIZE);
         for (int i = 0; i <= ARRAY_SIZE; i++) {
-            dequeue.push(i);
+            dequeue.insertRight(i);
         }
     }
 
     @Test
-    public void insert() {
-        assertFalse(dequeue.insert(42));
+    public void insertRight() {
+        assertFalse(dequeue.insertRight(42));
         assertEquals(ARRAY_SIZE, dequeue.size());
     }
 
     @Test
-    public void remove() {
-        assertEquals(java.util.Optional.of(0).get(), dequeue.remove());
+    public void removeLeft() {
+        assertEquals(java.util.Optional.of(0).get(), dequeue.removeLeft());
+        assertEquals(java.util.Optional.of(1).get(), dequeue.removeLeft());
         clearDequeue();
-        assertEquals(null, dequeue.remove());
+        assertEquals(null, dequeue.removeLeft());
     }
 
     private void clearDequeue() {
         for (int i = 0; i < ARRAY_SIZE; i++) {
-            dequeue.remove();
+            dequeue.removeLeft();
         }
     }
 
     @Test
-    public void push() {
-        assertFalse(dequeue.push(42));
+    public void insertLeft() {
+        assertFalse(dequeue.insertLeft(42));
         assertEquals(5, dequeue.size());
     }
 
     @Test
-    public void peek() {
-        assertEquals(java.util.Optional.of(ARRAY_SIZE - 1).get(), dequeue.peek());
+    public void removeRight() {
+        assertEquals(java.util.Optional.of(ARRAY_SIZE - 1).get(), dequeue.removeRight());
+        assertEquals(java.util.Optional.of(ARRAY_SIZE - 2).get(), dequeue.removeRight());
     }
 
     @Test
-    public void peekNull() {
+    public void removeRightNull() {
         clearDequeue();
-        assertEquals(null, dequeue.peek());
-    }
-
-    @Test
-    public void pop() {
-        assertEquals(java.util.Optional.of(4).get(), dequeue.pop());
-        assertEquals(java.util.Optional.of(3).get(), dequeue.pop());
-    }
-
-    @Test
-    public void popNull() {
-        clearDequeue();
-        assertEquals(null, dequeue.pop());
+        assertEquals(null, dequeue.removeRight());
     }
 
     @Test
@@ -78,12 +68,12 @@ public class DequeueImplTest {
 
     @Test
     public void isFullFalse() {
-        dequeue.remove();
+        dequeue.removeRight();
         assertFalse(dequeue.isFull());
     }
 
     @Test
-    public void isEmpty() {
+    public void isEmptyFalse() {
         assertFalse(dequeue.isEmpty());
     }
 
@@ -91,6 +81,19 @@ public class DequeueImplTest {
     public void isEmptyTrue() {
         clearDequeue();
         assertTrue(dequeue.isEmpty());
+    }
+
+    @Test
+    public void mixedTest() {
+        clearDequeue();
+        dequeue.insertLeft(0);
+        assertEquals(java.util.Optional.of(0).get(), dequeue.removeRight());
+        dequeue.insertLeft(1);
+        dequeue.insertLeft(2);
+        dequeue.insertRight(3);
+        assertEquals(java.util.Optional.of(2).get(), dequeue.removeLeft());
+        assertEquals(java.util.Optional.of(3).get(), dequeue.removeRight());
+
     }
 
 }
