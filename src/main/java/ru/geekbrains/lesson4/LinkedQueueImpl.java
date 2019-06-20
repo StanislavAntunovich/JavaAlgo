@@ -22,6 +22,8 @@ public class LinkedQueueImpl<E> extends LinkedListImpl<E> implements Queue<E> {
 
     @Override
     public void clear() {
+        size = 0;
         firstElement = null;
     }
+
 }
