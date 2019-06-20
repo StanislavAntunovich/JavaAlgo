@@ -1,5 +1,7 @@
 package ru.geekbrains.lesson4;
 
+import java.util.Iterator;
+
 public class LinkedListImpl<E> implements LinkedList<E> {
 
     protected Entry<E> firstElement;
@@ -98,5 +100,24 @@ public class LinkedListImpl<E> implements LinkedList<E> {
     @Override
     public Entry getFirst() {
         return firstElement;
+    }
+
+    @Override
+    public Iterator<E> iterator() {
+        return new Iterator<E>() {
+            private Entry<E> current = firstElement;
+
+            @Override
+            public boolean hasNext() {
+                return current != null;
+            }
+
+            @Override
+            public E next() {
+                E value = current.value;
+                current = current.next;
+                return value;
+            }
+        };
     }
 }
