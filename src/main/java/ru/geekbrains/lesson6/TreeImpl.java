@@ -34,6 +34,8 @@ public class TreeImpl<N extends Comparable<? super N>> implements Tree<N> {
             return false;
         }
 
+        newNode.setLevel(parent.getLevel() + 1);
+
         if (parent.shouldBeLeft(value)) {
             parent.setLeftChild(newNode);
         } else {
@@ -75,6 +77,25 @@ public class TreeImpl<N extends Comparable<? super N>> implements Tree<N> {
         return new NodeAndParent(null, parent);
     }
 
+    private Node<N> getSuccessor(Node<N> removedNode) {
+        Node<N> successor = removedNode;
+        Node<N> successorParent = null;
+        Node<N> current = removedNode.getRightChild();
+
+        while (current != null) {
+            successorParent = successor;
+            successor = current;
+            current = current.getLeftChild();
+        }
+
+        if (successor != removedNode.getRightChild()) {
+            successorParent.setLeftChild(successor.getRightChild());
+            successor.setRightChild(removedNode.getRightChild());
+        }
+
+        return successor;
+    }
+
     @Override
     public boolean remove(N value) {
         NodeAndParent nodeAndParent = doFind(value);
@@ -97,36 +118,14 @@ public class TreeImpl<N extends Comparable<? super N>> implements Tree<N> {
         return true;
     }
 
-    private void removeCommonNode(Node<N> parent, Node<N> removedNode) {
-        Node<N> successor = getSuccessor(removedNode);
+    private void removeLeafNode(Node<N> parent, Node<N> removedNode) {
         if (removedNode == root) {
-            root = successor;
+            root = null;
         } else if (parent.shouldBeLeft(removedNode.getValue())) {
-            parent.setLeftChild(successor);
+            parent.setLeftChild(null);
         } else {
-            parent.setRightChild(successor);
+            parent.setRightChild(null);
         }
-
-        successor.setLeftChild(removedNode.getLeftChild());
-    }
-
-    private Node<N> getSuccessor(Node<N> removedNode) {
-        Node<N> successor = removedNode;
-        Node<N> successorParent = null;
-        Node<N> current = removedNode.getRightChild();
-
-        while (current != null) {
-            successorParent = successor;
-            successor = current;
-            current = current.getLeftChild();
-        }
-
-        if (successor != removedNode.getRightChild()) {
-            successorParent.setLeftChild(successor.getRightChild());
-            successor.setRightChild(removedNode.getRightChild());
-        }
-
-        return successor;
     }
 
     private void removeNodeWithSingleChild(Node<N> parent, Node<N> removedNode) {
@@ -143,14 +142,17 @@ public class TreeImpl<N extends Comparable<? super N>> implements Tree<N> {
         }
     }
 
-    private void removeLeafNode(Node<N> parent, Node<N> removedNode) {
+    private void removeCommonNode(Node<N> parent, Node<N> removedNode) {
+        Node<N> successor = getSuccessor(removedNode);
         if (removedNode == root) {
-            root = null;
+            root = successor;
         } else if (parent.shouldBeLeft(removedNode.getValue())) {
-            parent.setLeftChild(null);
+            parent.setLeftChild(successor);
         } else {
-            parent.setRightChild(null);
+            parent.setRightChild(successor);
         }
+
+        successor.setLeftChild(removedNode.getLeftChild());
     }
 
     private boolean hasOnlySingleChildNode(Node<N> removedNode) {
@@ -213,7 +215,6 @@ public class TreeImpl<N extends Comparable<? super N>> implements Tree<N> {
         System.out.println(current);
         inOrder(current.getRightChild());
     }
-
 
     @Override
     public boolean isBalanced() {
