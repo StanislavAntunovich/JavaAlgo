@@ -92,7 +92,6 @@ public class TreeImpl<N extends Comparable<? super N>> implements Tree<N> {
             successorParent.setLeftChild(successor.getRightChild());
             successor.setRightChild(removedNode.getRightChild());
         }
-        successor.setLevel(removedNode.getLevel());
 
         return successor;
     }
