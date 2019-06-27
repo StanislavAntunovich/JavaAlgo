@@ -1,6 +1,7 @@
 package ru.geekbrains.lesson4;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class LinkedListImpl<E> implements LinkedList<E> {
 
@@ -114,6 +115,9 @@ public class LinkedListImpl<E> implements LinkedList<E> {
 
             @Override
             public E next() {
+                if (current == null) {
+                    throw new NoSuchElementException();
+                }
                 E value = current.value;
                 current = current.next;
                 return value;
