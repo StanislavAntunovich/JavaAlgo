@@ -24,6 +24,7 @@ public class MainClass {
 
         System.out.println("PCT of balanced trees is " + calcBalancedTreesPCT(balancedTrees, TREES_COUNT) + "%");
 
+
     }
 
     private static Tree<Integer> setUpTree(int maxLevels, int maxValue, int minValue) {
@@ -41,4 +42,5 @@ public class MainClass {
     private static double calcBalancedTreesPCT(int balancedTreesCount, int totalTrees) {
         return balancedTreesCount / (double) totalTrees * 100;
     }
+
 }
