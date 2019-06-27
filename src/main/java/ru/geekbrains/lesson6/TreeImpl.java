@@ -166,7 +166,7 @@ public class TreeImpl<N extends Comparable<? super N>> implements Tree<N> {
         }
 
         successor.setLeftChild(removedNode.getLeftChild());
-        fixLevels(successor, removedNode.getLevel());
+        fixLevels(successor, removedNode.getLevel()); //TODO
     }
 
     private boolean hasOnlySingleChildNode(Node<N> removedNode) {
