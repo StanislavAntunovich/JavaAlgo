@@ -147,7 +147,7 @@ public class Graph {
         vertex.setVisited(true);
     }
 
-    public Stack<String> findShortPath(String startLabel, String finishLabel) {
+    public String findShortPath(String startLabel, String finishLabel) {
         int startIndex = indexOf(startLabel);
         int finishIndex = indexOf(finishLabel);
         if (startIndex == -1 || finishIndex == -1) {
@@ -176,31 +176,36 @@ public class Graph {
         return null;
     }
 
-    private Stack<String> makePath(Vertex lastVertex) {
-        Stack<String> path = new Stack<>();
+    private String makePath(Vertex lastVertex) {
+        Stack<String> stack = new Stack<>();
         Vertex current = lastVertex;
         while ( current != null ) {
-            path.push(current.getLabel());
+            stack.push(current.getLabel());
             current = current.getPrevious();
         }
 
-        return path;
+        return pathToString(stack);
+    }
+
+    private String pathToString(Stack<String> stack) {
+        StringBuilder path = new StringBuilder();
+        while ( !stack.isEmpty() ) {
+            path.append(stack.pop()).append(" -> ");
+        }
+
+        path.delete(path.lastIndexOf(" -> "), path.length());
+        return path.toString();
     }
 
     public void displayShortestPath(String start, String finish) {
-        Stack<String> path = findShortPath(start, finish);
+        String path = findShortPath(start, finish);
 
         if (path == null) {
             System.out.println("Path between " + start + " and " + finish + " not found");
             return;
         }
 
-        while ( !path.isEmpty() ) {
-            System.out.print(path.pop());
-            if (path.size() > 0) {
-                System.out.print(" -> ");
-            }
-        }
+        System.out.println(path);
     }
 
 }
