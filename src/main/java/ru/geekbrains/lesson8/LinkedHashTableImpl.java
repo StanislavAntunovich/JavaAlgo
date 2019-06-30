@@ -147,11 +147,11 @@ public class LinkedHashTableImpl<I extends Item, V> implements HashTable<I, V> {
     public void display() {
         System.out.println("-----------");
         for (int i = 0; i < data.length; i++) {
-            System.out.println("[" + i + "] - " + data[i]);
+            System.out.println("[" + i + "] \t- " + data[i]);
             LinkedEntry le = (LinkedEntry) data[i];
             while (le != null && le.getNext() != null) {
                 le = le.getNext();
-                System.out.println("\t " + le);
+                System.out.println("\t \t" + le);
             }
         }
 
